@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm" action="/login" method="POST">
+        <label for="email">Endereço de Email:</label>
+        <input type="text" id="email" name="email" required><br><br>
+    
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required><br><br>
+    
+        <input type="submit" value="Entrar">
+    </form>
+
+    <!-- Div para exibir os valores do e-mail e senha -->
+    <div id="result"></div>
+</body>
+</html>
