@@ -37,9 +37,24 @@
 
             <input type="submit" value="Adicionar Item">
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...</div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              <h2>Excluir Item do Estoque</h2>
+              <% estoque.forEach(item => { %>
+                <p>
+                  <%= item.codigo %> - <%= item.descricao %> - <%= item.preco %> - <%= item.quantidade %> - <%= item.localizacao %>
+                  
+                  <form action="/estoque/<%= item.codigo %>" method="POST" style="display: inline;">
+                    <!-- Use um botão submit com o método POST -->
+                    <button type="submit" formmethod="POST" formaction="/estoque/<%= item.codigo %>">Excluir</button>
+                    <input type="hidden" name="_method" value="DELETE"> <!-- Campo oculto para indicar o método DELETE -->
+                  </form>
+                </p>
+              <% }) %>
+              
+
+
+            </div>
             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
-            <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>
           </div>
         
         </form>
@@ -65,9 +80,9 @@
                         <td><%= item.localizacao %></td>
                     </tr>
                     <% }) %>
-            <% } else { %>
-                <p>Não há itens no estoque para exibir...</p>
-            <% } %>
+              <% } else { %>
+                  <p>Não há itens no estoque para exibir...</p>
+              <% } %>
             </tbody>
           </table>
     </div>

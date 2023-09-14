@@ -106,8 +106,10 @@ app.get("/estoque", async (req, res) => {
     const estoque = await EstoqueModel.find({});
 
     // Renderize a página de estoque com os dados de estoque
-    res.render("estoque", { estoque });
+    res.render("estoque", { estoque }); // Certifique-se de passar 'estoque' para o modelo
 });
+
+// ...
 
 app.post('/estoque', async (req, res) => {
     try {
@@ -131,6 +133,24 @@ app.post('/estoque', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
+
+// Rota para excluir um item do estoque
+app.delete('/estoque/:codigo', async (req, res) => {
+    try {
+        const codigo = req.params.codigo;
+        console.log(`Tentativa de delete: codigo=${codigo}, descricao=${descricao}`);
+
+        // Encontre o item com base no código e exclua-o
+        await EstoqueModel.deleteOne({ codigo });
+
+        res.redirect('/estoque'); // Redirecione de volta para a página de estoque após a exclusão bem-sucedida
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
 
 const port = 8080;
 
