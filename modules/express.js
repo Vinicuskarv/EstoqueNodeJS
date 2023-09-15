@@ -130,25 +130,21 @@ app.post('/estoque', async (req, res) => {
 
         res.redirect('/estoque'); // Redirecione para a página de estoque após a adição bem-sucedida
     } catch (error) {
+        
         res.status(500).send(error.message);
     }
 });
 
 
-// Rota para excluir um item do estoque
-app.delete('/estoque/:codigo', async (req, res) => {
-    try {
-        const codigo = req.params.codigo;
-        console.log(`Tentativa de delete: codigo=${codigo}, descricao=${descricao}`);
+app.get('/estoque', async (req, res) => {
+    const codigoItemPesquisado = req.query.codigoItemPesquisado; // Obter o código inserido no formulário
 
-        // Encontre o item com base no código e exclua-o
-        await EstoqueModel.deleteOne({ codigo });
+    // Realizar a pesquisa no banco de dados com base no código
+    const estoque = await EstoqueModel.find({ codigo: codigoItemPesquisado });
 
-        res.redirect('/estoque'); // Redirecione de volta para a página de estoque após a exclusão bem-sucedida
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
+    res.render("estoque", { estoque });
 });
+
 
 
 

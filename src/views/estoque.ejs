@@ -18,46 +18,62 @@
           </nav>
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                <h2>Adicionar Item ao Estoque</h2>
-        <form action="/estoque" method="POST">
-            <label for="codigo">Código:</label>
-            <input type="text" id="codigo" name="codigo" required><br><br>
+            <h2>Adicionar Item ao Estoque</h2>
+            <form action="/estoque" method="POST">
+              <label for="codigo">Código:</label>
+              <input type="text" id="codigo" name="codigo" required><br><br>
 
-            <label for="descricao">Descrição:</label>
-            <input type="text" id="descricao" name="descricao" required><br><br>
+              <label for="descricao">Descrição:</label>
+              <input type="text" id="descricao" name="descricao" required><br><br>
 
-            <label for="preco">Preço:</label>
-            <input type="number" id="preco" name="preco" step="0.01" required><br><br>
+              <label for="preco">Preço:</label>
+              <input type="number" id="preco" name="preco" step="0.01" required><br><br>
 
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" required><br><br>
+              <label for="quantidade">Quantidade:</label>
+              <input type="number" id="quantidade" name="quantidade" required><br><br>
 
-            <label for="localizacao">Localização:</label>
-            <input type="text" id="localizacao" name="localizacao" required><br><br>
+              <label for="localizacao">Localização:</label>
+              <input type="text" id="localizacao" name="localizacao" required><br><br>
 
-            <input type="submit" value="Adicionar Item">
+              <input type="submit" value="Adicionar Item">
+            </form>
             </div>
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-              <h2>Excluir Item do Estoque</h2>
-              <% estoque.forEach(item => { %>
-                <p>
-                  <%= item.codigo %> - <%= item.descricao %> - <%= item.preco %> - <%= item.quantidade %> - <%= item.localizacao %>
-                  
-                  <form action="/estoque/<%= item.codigo %>" method="POST" style="display: inline;">
-                    <!-- Use um botão submit com o método POST -->
-                    <button type="submit" formmethod="POST" formaction="/estoque/<%= item.codigo %>">Excluir</button>
-                    <input type="hidden" name="_method" value="DELETE"> <!-- Campo oculto para indicar o método DELETE -->
-                  </form>
-                </p>
-              <% }) %>
-              
-
-
+              <h2>Pesquisar item</h2>
+              <form action="/estoque" method="get">
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigocodigoItemPesquisado" name="codigoItemPesquisado" required><br>
+                <input type="submit" value="Pesquisar">
+              </form>
+              <table class="table  table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Descricao</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">localizacao</th>
+                    <th scope="col">Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (estoque) { %>
+                    <% estoque.forEach(item => { %>
+                        <tr>
+                            <td><%= item.codigo %></td>
+                            <td><%= item.descricao %></td>
+                            <td><%= item.preco %></td>
+                            <td><%= item.quantidade %></td>
+                            <td><%= item.localizacao %></td>
+                        </tr>
+                        <% }) %>
+                  <% } else { %>
+                      <p>Não há itens no estoque para exibir...</p>
+                  <% } %>
+                </tbody>
+              </table>
             </div>
             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
           </div>
-        
-        </form>
         <br>
         <table class="table  table-striped">
             <thead>
