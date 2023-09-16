@@ -2,9 +2,13 @@ const express = require('express');
 const UserModel = require('../src/models/user.model');
 const EstoqueModel = require('../src/models/estoque.model');
 const app = express();
+const bodyParser = require('body-parser'); // Importe o body-parser
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
@@ -109,7 +113,6 @@ app.get("/estoque", async (req, res) => {
     res.render("estoque", { estoque }); // Certifique-se de passar 'estoque' para o modelo
 });
 
-// ...
 
 app.post('/estoque', async (req, res) => {
     try {
@@ -135,18 +138,25 @@ app.post('/estoque', async (req, res) => {
     }
 });
 
-
-app.get('/estoque', async (req, res) => {
-    const codigoItemPesquisado = req.query.codigoItemPesquisado; // Obter o código inserido no formulário
-
-    // Realizar a pesquisa no banco de dados com base no código
-    const estoque = await EstoqueModel.find({ codigo: codigoItemPesquisado });
-
-    res.render("estoque", { estoque });
-});
-
-
-
+app.post('/estoque/excluir', async (req, res) => {
+    const codigoItemExcluir = req.body.codigo; // Obter o código do formulário
+  
+    try {
+      // Procurar o item no banco de dados com base no código e excluí-lo
+      const result = await EstoqueModel.deleteOne({ codigo: codigoItemExcluir });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).send('Item não encontrado');
+      }
+  
+      // Redirecione o usuário para a página de estoque ou uma página de confirmação
+      res.redirect('/estoque');
+  
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  });
+  
 
 const port = 8080;
 
