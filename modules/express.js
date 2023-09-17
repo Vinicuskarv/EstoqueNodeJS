@@ -102,15 +102,14 @@ app.get("/editar", async (req, res) => {
     console.log(`codigo=${codigoItemEditar}`);
   
     try {
-      // Procurar o item no banco de dados com base no código
+
       const itemParaEditar = await EstoqueModel.findOne({ codigo: codigoItemEditar });
       console.log(`codigo=${itemParaEditar}`);
   
       if (!itemParaEditar) {
         return res.status(404).send('Item não encontrado');
       }
-  
-      // Preencha os campos de edição com os valores do item encontrado
+
       res.render("editar", { itemParaEditar });
   
     } catch (error) {
